@@ -22,9 +22,18 @@ nfs_export "/home/ubuntu/share" do
   options ['no_root_squash']
 end
 
-service "nfs-kernel-server" do
-  action :restart
+execute "reexport the nfs mounts" do
+  user "root"
+  command "exportfs -ra"
+  action :run
 end
+
+execute "reexport the nfs mounts" do
+  user "root"
+  command "/etc/init.d/nfs-kernel-server restart"
+  action :run
+end
+
 
 remote_file "/home/ubuntu/share/toycomercial001.mp4" do
   source "https://archive.org/download/deluxemeninspace/toycomercial001.mp4"
